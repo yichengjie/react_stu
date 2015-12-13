@@ -1,72 +1,55 @@
-/*var gulp = require("gulp");
-var browserify = require("browserify");
-var babelify = require("babelify");
-var source = require("vinyl-source-stream");
+'use strict';
 
-gulp.task('browserify', function(){
-  return browserify('./js/app.js')
-         .transform(babelify)
-         .bundle()
-         .pipe(source('bundle.js'))
-         .pipe(gulp.dest('js'));
-});
-
-gulp.task('default',['browserify']) ;*/
-
-/*const gulp = require('gulp');
-const babel = require('gulp-babel');
- 
-gulp.task('default', () => {
-  return gulp.src('src/app.jsx')
-    .pipe(babel({
-      presets: ['es2015']
-    }))
-    .pipe(gulp.dest('dist'));
-});*/
-
+var browserify = require('browserify');
 var gulp = require('gulp');
-var jsx = require('gulp-jsx');
-var browserify = require("browserify");
-var babelify = require("babelify");
-var source = require("vinyl-source-stream");
-var rename = require('gulp-rename');
+var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
+var sourcemaps = require('gulp-sourcemaps');
+var reactify = require('reactify');
+var del = require('del');  // Deletes files.
 
 
+// Define some paths.
+var paths = {
+    css: ['src/css/**/*.styl'],
+    app_js: ['./src/js/app.jsx'],
+    js: ['src/js/*.jsx']
+};
 
-gulp.task('browserify2', function() {  
-  return browserify('./src/app.jsx')
-    .bundle()
-    /*.pipe(source('bundle.js')) */// gives streaming vinyl file object
-    /*.pipe(buffer())*/ // <----- convert from streaming to buffered vinyl file object
-    /*.pipe(uglify()) */// now gulp-uglify works 
-    /*.pipe(rename('bundle.min.js'))*/
-   /*.pipe(gulp.dest('./dist'))*/;
+
+gulp.task('clean', function(done) {
+    del(['build'], done);
+});
+
+gulp.task('js', function () {
+    console.info('js task run.....') ;
+    // set up the browserify instance on a task basis
+    var b = browserify({
+        entries: paths.app_js,
+        debug: true,
+        // defining transforms here will avoid crashing your stream
+        transform: [reactify]
+    });
+
+    return b.bundle()
+        .pipe(source('app.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        // Add transformation tasks to the pipeline here.
+        .pipe(uglify())
+        .on('error', gutil.log)
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('./dist/js/'));
+});
+
+// Rerun tasks whenever a file changes.
+gulp.task('watch', function() {
+    console.info('watch file change ......') ;
+    //gulp.watch(paths.css, ['css']);
+    gulp.watch(paths.js, ['js']);
 });
 
 
-
-gulp.task('browserify', function() {  
-  return browserify('./dist/app.js')
-    .bundle()
-    .pipe(source('bundle.js')) // gives streaming vinyl file object
-    .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-    /*.pipe(uglify()) */// now gulp-uglify works 
-    .pipe(rename('bundle.min.js'))
-    .pipe(gulp.dest('./dist'));
-});
-
-
- 
-gulp.task('build', function() {
-  return gulp.src('./src/app.jsx')
-    .pipe(jsx({
-      factory: 'React.createClass'
-    }))
-    .pipe(rename('app.js'))
-    .pipe(gulp.dest('dist'));
-});
-
-
-gulp.task('default',['browserify']) ;
+gulp.task('default',['watch','js']) ;
