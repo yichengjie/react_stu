@@ -14,8 +14,8 @@ var del = require('del');  // Deletes files.
 // Define some paths.
 var paths = {
     css: ['src/css/**/*.styl'],
-    app_js: ['./src/js/app.jsx'],
-    js: ['src/js/*.jsx']
+    app_js: ['./src/js/app.js'],
+    js: ['src/js/*.js']
 };
 
 
@@ -38,7 +38,7 @@ gulp.task('js', function () {
         .pipe(buffer())
         .pipe(sourcemaps.init({loadMaps: true}))
         // Add transformation tasks to the pipeline here.
-        .pipe(uglify())
+        /*.pipe(uglify())*/
         .on('error', gutil.log)
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./dist/js/'));

@@ -14,7 +14,7 @@ ReactDOM.render(
     document.getElementById('container')
 );*/
 
-var HelloWorld  = React.createClass({
+/*var HelloWorld  = React.createClass({
     render:function(){
         return (<p>
                     Hello world  , <input type="text" placeholder="Your name here : " />!
@@ -29,4 +29,10 @@ setInterval(function() {
     <HelloWorld date={new Date()} />,
         document.getElementById('container')
     );
-}, 500);
+}, 500);*/
+
+var CommentBox = require('./CommentBox') ;
+ReactDOM.render(
+<CommentBox />,
+    document.getElementById('container')
+);
