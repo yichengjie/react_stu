@@ -1,38 +1,16 @@
-
-// main.js
-//var React = require('react');
-//var ReactDOM = require('react-dom');
-
-/*var HelloMessage = React.createClass({
-  render: function() {
-    return <div>Hello {this.props.name}</div>;
-  }
-});
-
-ReactDOM.render(
-<HelloMessage name="John" />,
-    document.getElementById('container')
-);*/
-
-/*var HelloWorld  = React.createClass({
-    render:function(){
-        return (<p>
-                    Hello world  , <input type="text" placeholder="Your name here : " />!
-                    It is {this.props.date.toTimeString()}
-                </p>
-        );
+var CustomComponent = React.createClass({
+    render: function(){
+    	var rows = [];
+        var $nodes = ['Alice', 'Emily', 'Kate'].map(function(name, index){
+            //console.info('name : ' + obj.name + ' , ' + index) ;
+            //rows.push(<span>{obj.name}</span>) ;
+            return (<div key={index}>Hello, {name}!</div>);
+        });
+        return (<div className="custom-component">{$nodes}</div>);
     }
 });
 
-setInterval(function() {
-    ReactDOM.render(
-    <HelloWorld date={new Date()} />,
-        document.getElementById('container')
-    );
-}, 500);*/
 
-var CommentBox = require('./CommentBox') ;
-ReactDOM.render(
-<CommentBox />,
+ReactDOM.render(<CustomComponent/>,
     document.getElementById('container')
 );
