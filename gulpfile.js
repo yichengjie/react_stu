@@ -11,11 +11,13 @@ var reactify = require('reactify');
 var del = require('del');  // Deletes files.
 
 
+var curAppName = "app3" ;
+
 // Define some paths.
 var paths = {
     css: ['src/css/**/*.styl'],
-    app_js: ['./src/js/app.js'],
-    js: ['src/js/*.js']
+    app_js: ['./src/js/'+curAppName+'/app.js'],
+    js: ['src/js/'+curAppName+'/*.js']
 };
 
 
