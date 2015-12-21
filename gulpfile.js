@@ -10,14 +10,14 @@ var sourcemaps = require('gulp-sourcemaps');
 var reactify = require('reactify');
 var del = require('del');  // Deletes files.
 
-var appname = 'app5_2' ;
 
+var curAppName = "app3" ;
 
 // Define some paths.
 var paths = {
     css: ['src/css/**/*.styl'],
-    app_js: ['./src/js/'+appname+'/app.js'],
-    js: ['src/js/'+appname+'/**']
+    app_js: ['./src/js/'+curAppName+'/app.js'],
+    js: ['src/js/'+curAppName+'/*.js']
 };
 
 
