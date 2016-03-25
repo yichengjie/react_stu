@@ -11,7 +11,7 @@ var reactify = require('reactify');
 var del = require('del');  // Deletes files.
 
 
-var curAppName = "app3" ;
+var curAppName = "app4" ;
 
 // Define some paths.
 var paths = {
@@ -52,6 +52,5 @@ gulp.task('watch', function() {
     //gulp.watch(paths.css, ['css']);
     gulp.watch(paths.js, ['js']);
 });
-
 
 gulp.task('default',['watch','js']) ;
